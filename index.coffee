@@ -3,11 +3,28 @@ shelljs=require "shelljs"
 
 http.createServer (request, response)->
   response.writeHead 200,{"Content-Type":"text/plain"}
-  #shelljs.cd '~'
   currentDir = ''+shelljs.pwd()
-  hexoPostsDir = "#{currentDir}/"
-  result = shelljs.exec "cd #{hexoPostsDir}../source/_posts & git pull origin master "  
-    .output
+  hexoPostsDir = "#{currentDir}/../source/_posts"
+  hexoDir = "#{currentDir}/../"
+
+  #pull posts
+  pullCmd = shelljs.exec "cd #{hexoPostsDir} & git pull origin master "  
+
+  if pullCmd.code is 0 
+    #pull successed!
+    console.log "pull successed!"
+    
+    #open node, if you are not using nvm please skip this step
+    if isnt (shelljs.which 'node')
+      nvmCmd = shelljs.exec "nvm use 0.12"
+    hexoCmd = shelljs.exec "cd #{hexoDir} & hexo server"
+    if hexoCmd.code isnt 0
+      console.log "hexo server failed!"
+    else
+      console.log "hexo server successed!"
+  else
+    console.log "pull posts failed"
+
   result = ''+result
   response.write result
   response.end()
