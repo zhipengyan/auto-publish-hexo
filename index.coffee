@@ -19,8 +19,8 @@ http.createServer (request, response)->
           .digest 'hex'
 
       sig = request.headers['x-hub-signature']
-      event = req.headers['x-github-event']
-      id = req.headers['x-github-delivery']
+      event = request.headers['x-github-event']
+      id = request.headers['x-github-delivery']
       statusCode = 400
       result = 
         success:false
