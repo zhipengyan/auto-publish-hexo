@@ -20,7 +20,7 @@
       success: false,
       errMsg: ''
     };
-    if ((secretHeader != null) && signBlob(key, secretHeader)) {
+    if ((secretHeader != null) || !signBlob(key, secretHeader)) {
       statusCode = 401;
       result = {
         success: false,

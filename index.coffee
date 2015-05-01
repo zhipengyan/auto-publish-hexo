@@ -15,7 +15,7 @@ http.createServer (request, response)->
     success:false
     errMsg: ''
   
-  if secretHeader? and signBlob(key, secretHeader)
+  if secretHeader? or not signBlob(key, secretHeader)
     statusCode = 401
     result = {
       success:false
