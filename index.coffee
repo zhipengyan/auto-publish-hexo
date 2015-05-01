@@ -1,11 +1,26 @@
 http = require "http"
 shelljs=require "shelljs"
+crypto = require "crypto"
 
 http.createServer (request, response)->
-  response.writeHead 200,{"Content-Type":"text/plain"}
-  if request.body.SECRET_TOKEN is 'yan881224'
-    response.write 'yan881224'
-    response.end()
+  signBlob = (key, blob) ->
+    return 'sha1=' + crypto.createHmac'sha1', key
+      .update blob
+      .digest 'hex'
+
+  secretHeader = request.headers['x-hub-signature']
+  key = 'yan881224'
+  statusCode = 505
+  result = 
+    success:false
+    errMsg: ''
+  
+  if secretHeader? and signBlob(key, secretHeader)
+    statusCode = 401
+    result = {
+      success:false
+      errMsg: 'verify failed'
+    }
   else
     currentDir = ''+shelljs.pwd()
     hexoPostsDir = "#{currentDir}/../source/_posts"
@@ -14,7 +29,6 @@ http.createServer (request, response)->
     #pull posts
     shelljs.cd hexoPostsDir
     pullCmd = shelljs.exec "ls & git pull origin master "  
-    result = false
 
     if pullCmd.code is 0 
       #pull successed!
@@ -28,16 +42,26 @@ http.createServer (request, response)->
       hexoCmd = shelljs.exec "hexo clean & hexo generate"
       if hexoCmd.code isnt 0
         console.log "hexo generate failed!"
-        result = false
+        statusCode = 503
+        result = 
+          success: false
+          errMsg: 'hexo generage failed:'+hexoCmd.output
       else
         console.log "hexo generate successed!"
-      result = true
+        statusCode = 200
+        result = 
+          success: true
+          errMsg: ''
     else
       console.log "pull posts failed"
-      result = false
+      statusCode = 505
+      result = 
+        success: false
+        errMsg: "pull posts failed:"+pullCmd.output
 
     shelljs.cd currentDir
-    response.write ''+result
-    response.end()
+
+    response.writeHead(statusCode, {"Content-Type": "application/json"});
+    response.end result
   return
 .listen 8888
