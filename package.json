@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/zhipengyan/auto-publish-hexo",
   "dependencies": {
-    "shelljs": "latest"
+    "shelljs": "latest",
+    "raw-body": "latest"
   }
 }
