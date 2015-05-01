@@ -14,16 +14,17 @@ http.createServer (request, response)->
     success:false
     errMsg: ''
   
-  if secretHeader? or signBlob(key) isnt secretHeader+''
+  currentDir = ''+shelljs.pwd()
+  hexoPostsDir = "#{currentDir}/../source/_posts"
+  hexoDir = "#{currentDir}/../"
+
+  if not (secretHeader and signBlob(key) is secretHeader+'')
     statusCode = 401
     result = {
       success:false
-      errMsg: 'verify failed'
+      errMsg: 'vertify failed'
     }
   else
-    currentDir = ''+shelljs.pwd()
-    hexoPostsDir = "#{currentDir}/../source/_posts"
-    hexoDir = "#{currentDir}/../"
 
     #pull posts
     shelljs.cd hexoPostsDir
@@ -61,6 +62,6 @@ http.createServer (request, response)->
   shelljs.cd currentDir
 
   response.writeHead(statusCode, {"Content-Type": "application/json"});
-  response.end JSON.stringify(result)
+  response.end JSON.stringify(secretHeader + '---'+ signBlob(key))
   return
 .listen 8888

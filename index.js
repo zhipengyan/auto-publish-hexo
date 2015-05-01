@@ -20,16 +20,16 @@
       success: false,
       errMsg: ''
     };
-    if ((secretHeader != null) || signBlob(key) !== secretHeader + '') {
+    currentDir = '' + shelljs.pwd();
+    hexoPostsDir = "" + currentDir + "/../source/_posts";
+    hexoDir = "" + currentDir + "/../";
+    if (!(secretHeader && signBlob(key) === secretHeader + '')) {
       statusCode = 401;
       result = {
         success: false,
-        errMsg: 'verify failed'
+        errMsg: 'vertify failed'
       };
     } else {
-      currentDir = '' + shelljs.pwd();
-      hexoPostsDir = "" + currentDir + "/../source/_posts";
-      hexoDir = "" + currentDir + "/../";
       shelljs.cd(hexoPostsDir);
       pullCmd = shelljs.exec("ls & git pull origin master ");
       if (pullCmd.code === 0) {
@@ -67,7 +67,7 @@
     response.writeHead(statusCode, {
       "Content-Type": "application/json"
     });
-    response.end(JSON.stringify(result));
+    response.end(JSON.stringify(secretHeader + '---' + signBlob(key)));
   }).listen(8888);
 
 }).call(this);
