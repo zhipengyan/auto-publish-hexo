@@ -2,7 +2,7 @@ http = require "http"
 shelljs=require "shelljs"
 crypto = require "crypto"
 bl = require 'bl'
-config = require 'config'
+config = require './config'
 
 key = config.webhook_secret #'yan881224'
 currentDir = ''+shelljs.pwd()
