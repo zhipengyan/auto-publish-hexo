@@ -17,11 +17,11 @@ http.createServer (request, response)->
     #open node, if you are not using nvm please skip this step
     if not (shelljs.which 'node')
       nvmCmd = shelljs.exec "nvm use 0.12"
-    hexoCmd = shelljs.exec "cd #{hexoDir} & hexo server"
+    hexoCmd = shelljs.exec "cd #{hexoDir} & hexo generate"
     if hexoCmd.code isnt 0
-      console.log "hexo server failed!"
+      console.log "hexo generate failed!"
     else
-      console.log "hexo server successed!"
+      console.log "hexo generate successed!"
   else
     console.log "pull posts failed"
 
