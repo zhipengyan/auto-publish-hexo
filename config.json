@@ -1,0 +1,9 @@
+{
+  "webhook_secret": "yan881224",
+  "nodejs_version": "0.12",
+  "path": {
+    "hexo_path": "../",
+    "posts_path": "../source/_posts"
+  },
+  "listen_port": 8888
+}
