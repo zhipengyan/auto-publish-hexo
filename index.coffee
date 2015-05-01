@@ -9,6 +9,9 @@ http.createServer (request, response)->
       .digest 'hex'
 
   secretHeader = request.headers['x-hub-signature']
+  response.writeHead(200, {"Content-Type": "application/json"});
+  response.end JSON.stringify ''+secretHeader
+
   key = 'yan881224'
   statusCode = 505
   result = 

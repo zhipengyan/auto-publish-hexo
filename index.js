@@ -14,6 +14,10 @@
       return 'sha1=' + crypto.createHmac('sha1', key).update(blob).digest('hex');
     };
     secretHeader = request.headers['x-hub-signature'];
+    response.writeHead(200, {
+      "Content-Type": "application/json"
+    });
+    response.end(JSON.stringify('' + secretHeader));
     key = 'yan881224';
     statusCode = 505;
     result = {
