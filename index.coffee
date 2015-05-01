@@ -8,7 +8,7 @@ http.createServer (request, response)->
   hexoDir = "#{currentDir}/../"
 
   #pull posts
-  pullCmd = shelljs.exec "cd #{hexoPostsDir} & git pull origin master "  
+  pullCmd = shelljs.exec "cd #{hexoPostsDir} & ls & git pull origin master "  
 
   if pullCmd.code is 0 
     #pull successed!

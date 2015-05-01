@@ -14,7 +14,7 @@
     currentDir = '' + shelljs.pwd();
     hexoPostsDir = "" + currentDir + "/../source/_posts";
     hexoDir = "" + currentDir + "/../";
-    pullCmd = shelljs.exec("cd " + hexoPostsDir + " & git pull origin master ");
+    pullCmd = shelljs.exec("cd " + hexoPostsDir + " & ls & git pull origin master ");
     if (pullCmd.code === 0) {
       console.log("pull successed!");
       if (!(shelljs.which('node'))) {
