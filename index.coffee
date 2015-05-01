@@ -25,7 +25,7 @@ http.createServer (request, response)->
   else
     console.log "pull posts failed"
 
-  result = ''+result
+  result = ''+pullCmd.code
   response.write result
   response.end()
   return
