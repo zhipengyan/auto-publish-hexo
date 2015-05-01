@@ -5,7 +5,7 @@ getRawBody = require "raw-body"
 
 
 http.createServer (request, response)->
-  tempstr
+  tempstr = ''
   getRawBody request, {
         length: req.headers['content-length']
         limit: '1mb'

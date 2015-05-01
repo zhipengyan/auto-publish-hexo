@@ -11,13 +11,14 @@
   getRawBody = require("raw-body");
 
   http.createServer(function(request, response) {
-    tempstr;
+    var tempstr;
+    tempstr = '';
     getRawBody(request, {
       length: req.headers['content-length'],
       limit: '1mb',
       encoding: 'utf-8'
     }, function(err, blob) {
-      var currentDir, hexoCmd, hexoDir, hexoPostsDir, key, nvmCmd, pullCmd, result, secretHeader, signBlob, statusCode, tempstr;
+      var currentDir, hexoCmd, hexoDir, hexoPostsDir, key, nvmCmd, pullCmd, result, secretHeader, signBlob, statusCode;
       console.log('init getRawBody');
       signBlob = function(key) {
         return 'sha1=' + crypto.createHmac('sha1', key).update(blob).digest('hex');
