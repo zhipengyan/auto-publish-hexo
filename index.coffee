@@ -58,9 +58,9 @@ http.createServer (request, response)->
         success: false
         errMsg: "pull posts failed:"+pullCmd.output
 
-    shelljs.cd currentDir
+  shelljs.cd currentDir
 
-    response.writeHead(statusCode, {"Content-Type": "application/json"});
-    response.end JSON.stringify(result)
+  response.writeHead(statusCode, {"Content-Type": "application/json"});
+  response.end JSON.stringify(result)
   return
 .listen 8888

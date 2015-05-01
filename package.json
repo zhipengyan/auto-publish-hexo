@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/zhipengyan/auto-publish-hexo",
   "dependencies": {
-    "shelljs": "latest",
-    "crypto": "latest"
+    "shelljs": "latest"
   }
 }

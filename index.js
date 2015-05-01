@@ -62,12 +62,12 @@
           errMsg: "pull posts failed:" + pullCmd.output
         };
       }
-      shelljs.cd(currentDir);
-      response.writeHead(statusCode, {
-        "Content-Type": "application/json"
-      });
-      response.end(JSON.stringify(result));
     }
+    shelljs.cd(currentDir);
+    response.writeHead(statusCode, {
+      "Content-Type": "application/json"
+    });
+    response.end(JSON.stringify(result));
   }).listen(8888);
 
 }).call(this);
