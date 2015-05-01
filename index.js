@@ -14,7 +14,7 @@
     var tempstr;
     tempstr = '';
     getRawBody(request, {
-      length: req.headers['content-length'],
+      length: request.headers['content-length'],
       limit: '1mb',
       encoding: 'utf-8'
     }, function(err, blob) {
