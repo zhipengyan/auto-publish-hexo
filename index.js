@@ -16,7 +16,7 @@
 
   currentDir = '' + shelljs.pwd();
 
-  hexoSourceDir = "" + currentDir + "/" + config.path.posts_path;
+  hexoSourceDir = "" + currentDir + "/" + config.path.hexo_source_path;
 
   hexoDir = "" + currentDir + "/" + config.path.hexo_path;
 
