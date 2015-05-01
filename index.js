@@ -9,20 +9,29 @@
   crypto = require("crypto");
 
   http.createServer(function(request, response) {
-    var currentDir, hexoCmd, hexoDir, hexoPostsDir, nvmCmd, pullCmd, result;
-    response.writeHead(200, {
-      "Content-Type": "text/plain"
-    });
-    if (request.body.SECRET_TOKEN === 'yan881224') {
-      response.write('yan881224');
-      response.end();
+    var currentDir, hexoCmd, hexoDir, hexoPostsDir, key, nvmCmd, pullCmd, result, secretHeader, signBlob, statusCode;
+    signBlob = function(key, blob) {
+      return 'sha1=' + crypto.createHmac('sha1', key).update(blob).digest('hex');
+    };
+    secretHeader = request.headers['x-hub-signature'];
+    key = 'yan881224';
+    statusCode = 505;
+    result = {
+      success: false,
+      errMsg: ''
+    };
+    if ((secretHeader != null) && signBlob(key, secretHeader)) {
+      statusCode = 401;
+      result = {
+        success: false,
+        errMsg: 'verify failed'
+      };
     } else {
       currentDir = '' + shelljs.pwd();
       hexoPostsDir = "" + currentDir + "/../source/_posts";
       hexoDir = "" + currentDir + "/../";
       shelljs.cd(hexoPostsDir);
       pullCmd = shelljs.exec("ls & git pull origin master ");
-      result = false;
       if (pullCmd.code === 0) {
         console.log("pull successed!");
         if (!(shelljs.which('node'))) {
@@ -32,18 +41,32 @@
         hexoCmd = shelljs.exec("hexo clean & hexo generate");
         if (hexoCmd.code !== 0) {
           console.log("hexo generate failed!");
-          result = false;
+          statusCode = 503;
+          result = {
+            success: false,
+            errMsg: 'hexo generage failed:' + hexoCmd.output
+          };
         } else {
           console.log("hexo generate successed!");
+          statusCode = 200;
+          result = {
+            success: true,
+            errMsg: ''
+          };
         }
-        result = true;
       } else {
         console.log("pull posts failed");
-        result = false;
+        statusCode = 505;
+        result = {
+          success: false,
+          errMsg: "pull posts failed:" + pullCmd.output
+        };
       }
       shelljs.cd(currentDir);
-      response.write('' + result);
-      response.end();
+      response.writeHead(statusCode, {
+        "Content-Type": "application/json"
+      });
+      response.end(result);
     }
   }).listen(8888);
 

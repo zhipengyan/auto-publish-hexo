@@ -4,7 +4,7 @@ crypto = require "crypto"
 
 http.createServer (request, response)->
   signBlob = (key, blob) ->
-    return 'sha1=' + crypto.createHmac'sha1', key
+    return 'sha1=' + crypto.createHmac 'sha1', key
       .update blob
       .digest 'hex'
 
