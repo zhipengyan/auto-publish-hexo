@@ -15,7 +15,7 @@ http.createServer (request, response)->
     console.log "pull successed!"
     
     #open node, if you are not using nvm please skip this step
-    if isnt (shelljs.which 'node')
+    if not (shelljs.which 'node')
       nvmCmd = shelljs.exec "nvm use 0.12"
     hexoCmd = shelljs.exec "cd #{hexoDir} & hexo server"
     if hexoCmd.code isnt 0

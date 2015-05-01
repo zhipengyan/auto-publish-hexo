@@ -7,14 +7,29 @@
   shelljs = require("shelljs");
 
   http.createServer(function(request, response) {
-    var currentDir, hexoPostsDir, result;
+    var currentDir, hexoCmd, hexoDir, hexoPostsDir, nvmCmd, pullCmd, result;
     response.writeHead(200, {
       "Content-Type": "text/plain"
     });
     currentDir = '' + shelljs.pwd();
-    hexoPostsDir = "" + currentDir + "/";
-    result = shelljs.exec("cd " + hexoPostsDir + "../source/_posts & git pull origin master ").output;
-    result = '' + result;
+    hexoPostsDir = "" + currentDir + "/../source/_posts";
+    hexoDir = "" + currentDir + "/../";
+    pullCmd = shelljs.exec("cd " + hexoPostsDir + " & git pull origin master ");
+    if (pullCmd.code === 0) {
+      console.log("pull successed!");
+      if (!(shelljs.which('node'))) {
+        nvmCmd = shelljs.exec("nvm use 0.12");
+      }
+      hexoCmd = shelljs.exec("cd " + hexoDir + " & hexo server");
+      if (hexoCmd.code !== 0) {
+        console.log("hexo server failed!");
+      } else {
+        console.log("hexo server successed!");
+      }
+    } else {
+      console.log("pull posts failed");
+    }
+    result = '' + pullCmd.code;
     response.write(result);
     response.end();
   }).listen(8888);
