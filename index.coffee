@@ -62,6 +62,6 @@ http.createServer (request, response)->
     shelljs.cd currentDir
 
     response.writeHead(statusCode, {"Content-Type": "application/json"});
-    response.end result
+    response.end JSON.stringify(result)
   return
 .listen 8888

@@ -66,7 +66,7 @@
       response.writeHead(statusCode, {
         "Content-Type": "application/json"
       });
-      response.end(result);
+      response.end(JSON.stringify(result));
     }
   }).listen(8888);
 
