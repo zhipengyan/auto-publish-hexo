@@ -10,6 +10,7 @@ http.createServer (request, response)->
   #pull posts
   shelljs.cd hexoPostsDir
   pullCmd = shelljs.exec "ls & git pull origin master "  
+  result = false
 
   if pullCmd.code is 0 
     #pull successed!
@@ -20,17 +21,19 @@ http.createServer (request, response)->
       nvmCmd = shelljs.exec "nvm use 0.12"
 
     shelljs.cd hexoDir
-    hexoCmd = shelljs.exec "hexo generate & hexo deploy"
+    hexoCmd = shelljs.exec "hexo clean & hexo generate"
     if hexoCmd.code isnt 0
       console.log "hexo generate failed!"
+      result = false
     else
       console.log "hexo generate successed!"
+    result = true
   else
     console.log "pull posts failed"
+    result = false
 
   shelljs.cd currentDir
-  result = request.body.SECRET_TOKEN
-  response.write result
+  response.write ''+result
   response.end()
   return
 .listen 8888
