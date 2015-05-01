@@ -1,16 +1,12 @@
 http = require "http"
 shelljs=require "shelljs"
 crypto = require "crypto"
-getRawBody = require "raw-body"
+bl = require 'bl'
 
 
 http.createServer (request, response)->
   tempstr = ''
-  getRawBody request, {
-        length: request.headers['content-length']
-        limit: '1mb'
-        encoding: 'utf-8'
-    }, (err, blob)->
+  request.pipe bl (err, blob)->
       console.log 'init getRawBody'
       signBlob = (key) ->
         return 'sha1=' + crypto.createHmac 'sha1', key
@@ -74,9 +70,6 @@ http.createServer (request, response)->
 
       response.writeHead(statusCode, {"Content-Type": "application/json"});
       response.end JSON.stringify(secretHeader + '---'+ signBlob(key))
-      next()
       return
-    response.writeHead(200, {"Content-Type": "application/json"});
-    response.end JSON.stringify(tempstr + '---')
   return
 .listen 8888
