@@ -4,9 +4,9 @@ crypto = require "crypto"
 bl = require 'bl'
 config = require './config'
 
-key = config.webhook_secret #'yan881224'
+key = config.webhook_secret
 currentDir = ''+shelljs.pwd()
-hexoPostsDir = "#{currentDir}/#{config.path.posts_path}"
+hexoSourceDir = "#{currentDir}/#{config.path.posts_path}"
 hexoDir = "#{currentDir}/#{config.path.hexo_path}"
 nodeVersion = config.nodejs_version
 listenPort = config.listen_port
@@ -35,14 +35,14 @@ http.createServer (request, response)->
       else
 
         #pull posts
-        shelljs.cd hexoPostsDir
+        shelljs.cd hexoSourceDir
         pullCmd = shelljs.exec "ls & git pull origin master "  
 
         if pullCmd.code is 0 
           #pull successed!
           console.log "pull successed!"
           
-          #active node, if you are not using nvm please skip this step
+          #active node
           if not (shelljs.which 'node')
             if shelljs.which 'nvm'
               nvmCmd = shelljs.exec "nvm use #{nodeVersion}"
@@ -62,10 +62,11 @@ http.createServer (request, response)->
               result = 
                 success: true
                 errMsg: ''
+                msg: hexoCmd.output
           else
             result = 
               success: false
-              errMsg: "node is broken!"
+              errMsg: "can't use node, check it!"
         else
           console.log "pull posts failed"
           statusCode = 500
