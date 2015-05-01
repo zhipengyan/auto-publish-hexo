@@ -3,22 +3,18 @@ shelljs=require "shelljs"
 crypto = require "crypto"
 
 http.createServer (request, response)->
-  signBlob = (key, blob) ->
+  signBlob = (key) ->
     return 'sha1=' + crypto.createHmac 'sha1', key
-      .update blob
       .digest 'hex'
 
   secretHeader = request.headers['x-hub-signature']
-  response.writeHead(200, {"Content-Type": "application/json"});
-  response.end JSON.stringify ''+secretHeader
-
   key = 'yan881224'
   statusCode = 505
   result = 
     success:false
     errMsg: ''
   
-  if secretHeader? or not signBlob(key, secretHeader)
+  if secretHeader? or signBlob(key) isnt secretHeader+''
     statusCode = 401
     result = {
       success:false

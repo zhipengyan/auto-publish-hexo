@@ -10,21 +10,17 @@
 
   http.createServer(function(request, response) {
     var currentDir, hexoCmd, hexoDir, hexoPostsDir, key, nvmCmd, pullCmd, result, secretHeader, signBlob, statusCode;
-    signBlob = function(key, blob) {
-      return 'sha1=' + crypto.createHmac('sha1', key).update(blob).digest('hex');
+    signBlob = function(key) {
+      return 'sha1=' + crypto.createHmac('sha1', key).digest('hex');
     };
     secretHeader = request.headers['x-hub-signature'];
-    response.writeHead(200, {
-      "Content-Type": "application/json"
-    });
-    response.end(JSON.stringify('' + secretHeader));
     key = 'yan881224';
     statusCode = 505;
     result = {
       success: false,
       errMsg: ''
     };
-    if ((secretHeader != null) || !signBlob(key, secretHeader)) {
+    if ((secretHeader != null) || signBlob(key) !== secretHeader + '') {
       statusCode = 401;
       result = {
         success: false,
