@@ -12,8 +12,8 @@
       "Content-Type": "text/plain"
     });
     currentDir = '' + shelljs.pwd();
-    hexoPostsDir = "" + currentDir + "/../";
-    result = shelljs.exec("ls " + hexoPostsDir).output;
+    hexoPostsDir = "" + currentDir + "/";
+    result = shelljs.exec("cd " + hexoPostsDir + "../source/_posts & git pull origin master ").output;
     result = '' + result;
     response.write(result);
     response.end();
