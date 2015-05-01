@@ -5,11 +5,13 @@ getRawBody = require "raw-body"
 
 
 http.createServer (request, response)->
+  tempstr
   getRawBody request, {
         length: req.headers['content-length']
         limit: '1mb'
         encoding: 'utf-8'
     }, (err, blob)->
+      console.log 'init getRawBody'
       signBlob = (key) ->
         return 'sha1=' + crypto.createHmac 'sha1', key
           .update blob 
@@ -18,6 +20,7 @@ http.createServer (request, response)->
       secretHeader = request.headers['x-hub-signature']
       key = 'yan881224'
       statusCode = 505
+      tempstr = signBlob(key, blob)
       result = 
         success:false
         errMsg: ''
@@ -73,5 +76,7 @@ http.createServer (request, response)->
       response.end JSON.stringify(secretHeader + '---'+ signBlob(key))
       next()
       return
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end JSON.stringify(tempstr + '---')
   return
 .listen 8888

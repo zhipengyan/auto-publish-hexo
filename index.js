@@ -11,18 +11,21 @@
   getRawBody = require("raw-body");
 
   http.createServer(function(request, response) {
+    tempstr;
     getRawBody(request, {
       length: req.headers['content-length'],
       limit: '1mb',
       encoding: 'utf-8'
     }, function(err, blob) {
-      var currentDir, hexoCmd, hexoDir, hexoPostsDir, key, nvmCmd, pullCmd, result, secretHeader, signBlob, statusCode;
+      var currentDir, hexoCmd, hexoDir, hexoPostsDir, key, nvmCmd, pullCmd, result, secretHeader, signBlob, statusCode, tempstr;
+      console.log('init getRawBody');
       signBlob = function(key) {
         return 'sha1=' + crypto.createHmac('sha1', key).update(blob).digest('hex');
       };
       secretHeader = request.headers['x-hub-signature'];
       key = 'yan881224';
       statusCode = 505;
+      tempstr = signBlob(key, blob);
       result = {
         success: false,
         errMsg: ''
@@ -77,6 +80,10 @@
       response.end(JSON.stringify(secretHeader + '---' + signBlob(key)));
       next();
     });
+    response.writeHead(200, {
+      "Content-Type": "application/json"
+    });
+    response.end(JSON.stringify(tempstr + '---'));
   }).listen(8888);
 
 }).call(this);
