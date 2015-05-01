@@ -14,13 +14,15 @@
     currentDir = '' + shelljs.pwd();
     hexoPostsDir = "" + currentDir + "/../source/_posts";
     hexoDir = "" + currentDir + "/../";
-    pullCmd = shelljs.exec("cd " + hexoPostsDir + " & ls & git pull origin master ");
+    shelljs.cd(hexoPostsDir);
+    pullCmd = shelljs.exec("ls & git pull origin master ");
     if (pullCmd.code === 0) {
       console.log("pull successed!");
       if (!(shelljs.which('node'))) {
         nvmCmd = shelljs.exec("nvm use 0.12");
       }
-      hexoCmd = shelljs.exec("cd " + hexoDir + " & hexo generate");
+      shelljs.cd(hexoDir);
+      hexoCmd = shelljs.exec("hexo generate");
       if (hexoCmd.code !== 0) {
         console.log("hexo generate failed!");
       } else {
@@ -29,6 +31,7 @@
     } else {
       console.log("pull posts failed");
     }
+    shelljs.cd(currentDir);
     result = '' + pullCmd.code;
     response.write(result);
     response.end();

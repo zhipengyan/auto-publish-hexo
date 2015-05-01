@@ -8,7 +8,8 @@ http.createServer (request, response)->
   hexoDir = "#{currentDir}/../"
 
   #pull posts
-  pullCmd = shelljs.exec "cd #{hexoPostsDir} & ls & git pull origin master "  
+  shelljs.cd hexoPostsDir
+  pullCmd = shelljs.exec "ls & git pull origin master "  
 
   if pullCmd.code is 0 
     #pull successed!
@@ -17,7 +18,9 @@ http.createServer (request, response)->
     #open node, if you are not using nvm please skip this step
     if not (shelljs.which 'node')
       nvmCmd = shelljs.exec "nvm use 0.12"
-    hexoCmd = shelljs.exec "cd #{hexoDir} & hexo generate"
+
+    shelljs.cd hexoDir
+    hexoCmd = shelljs.exec "hexo generate"
     if hexoCmd.code isnt 0
       console.log "hexo generate failed!"
     else
@@ -25,6 +28,7 @@ http.createServer (request, response)->
   else
     console.log "pull posts failed"
 
+  shelljs.cd currentDir
   result = ''+pullCmd.code
   response.write result
   response.end()
