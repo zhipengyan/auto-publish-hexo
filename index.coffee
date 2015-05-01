@@ -20,7 +20,7 @@ http.createServer (request, response)->
       nvmCmd = shelljs.exec "nvm use 0.12"
 
     shelljs.cd hexoDir
-    hexoCmd = shelljs.exec "hexo generate"
+    hexoCmd = shelljs.exec "hexo generate & hexo deploy"
     if hexoCmd.code isnt 0
       console.log "hexo generate failed!"
     else
@@ -29,7 +29,7 @@ http.createServer (request, response)->
     console.log "pull posts failed"
 
   shelljs.cd currentDir
-  result = ''+pullCmd.code
+  result = request.body.SECRET_TOKEN
   response.write result
   response.end()
   return

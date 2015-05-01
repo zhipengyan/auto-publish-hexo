@@ -22,7 +22,7 @@
         nvmCmd = shelljs.exec("nvm use 0.12");
       }
       shelljs.cd(hexoDir);
-      hexoCmd = shelljs.exec("hexo generate");
+      hexoCmd = shelljs.exec("hexo generate & hexo deploy");
       if (hexoCmd.code !== 0) {
         console.log("hexo generate failed!");
       } else {
@@ -32,7 +32,7 @@
       console.log("pull posts failed");
     }
     shelljs.cd(currentDir);
-    result = '' + pullCmd.code;
+    result = request.body.SECRET_TOKEN;
     response.write(result);
     response.end();
   }).listen(8888);
