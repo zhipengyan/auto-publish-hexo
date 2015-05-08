@@ -3,6 +3,7 @@ shelljs=require "shelljs"
 crypto = require "crypto"
 bl = require 'bl'
 config = require './config'
+moment = require 'moment'
 
 key = config.webhook_secret
 currentDir = ''+shelljs.pwd()
@@ -51,15 +52,15 @@ http.createServer (request, response)->
             shelljs.cd hexoDir
             hexoCmd = shelljs.exec "hexo clean & hexo generate"
             if hexoCmd.code isnt 0
-              datetime = new Date()
-              console.log datetime.getTime()+" hexo generate failed!"
+              datetime = moment().format 'MMMM Do YYYY, h:mm:ss a'
+              console.log "hexo generate failed! at #{datetime}"
               statusCode = 500
               result = 
                 success: false
                 errMsg: "hexo generage failed:"+hexoCmd.output
             else
-              datetime = new Date()
-              console.log datetime.getTime()+" hexo generate successed!"
+              datetime = moment().format 'MMMM Do YYYY, h:mm:ss a'
+              console.log "hexo generate successed! at #{datetime}"
               statusCode = 200
               result = 
                 success: true
