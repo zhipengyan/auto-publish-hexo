@@ -66,7 +66,8 @@
                 errMsg: "hexo generage failed:" + hexoCmd.output
               };
             } else {
-              console.log("hexo generate successed!");
+              datetime = new Date();
+              console.log(datetime.getTime() + " hexo generate successed!");
               statusCode = 200;
               result = {
                 success: true,
