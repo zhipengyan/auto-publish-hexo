@@ -26,7 +26,7 @@
 
   listenPort = config.listen_port;
 
-  timezone = config.timezone;
+  timezone = config.time_zone;
 
   getTime = function() {
     var datetime;

@@ -11,7 +11,7 @@ hexoSourceDir = "#{currentDir}/#{config.path.hexo_source_path}"
 hexoDir = "#{currentDir}/#{config.path.hexo_path}"
 nodeVersion = config.nodejs_version
 listenPort = config.listen_port
-timezone = config.timezone
+timezone = config.time_zone
 
 getTime = ()->
   #datetime = moment().format 'MMMM Do YYYY, h:mm:ss a'
