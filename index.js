@@ -31,7 +31,7 @@
   getTime = function() {
     var datetime;
     datetime = moment().format('MMMM Do YYYY, h:mm:ss a');
-    datetime = moment.tz(timezone, datetime);
+    datetime = moment.tz(datetime, timezone);
     return datetime.format('MMMM Do YYYY, h:mm:ss a');
   };
 
