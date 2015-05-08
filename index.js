@@ -12,7 +12,7 @@
 
   config = require('./config');
 
-  moment = require('moment');
+  moment = require('moment-timezone');
 
   key = config.webhook_secret;
 
@@ -30,9 +30,8 @@
 
   getTime = function() {
     var datetime;
-    datetime = moment().format('MMMM Do YYYY, h:mm:ss a');
-    datetime = moment.tz(datetime, timezone);
-    return datetime.format('MMMM Do YYYY, h:mm:ss a');
+    datetime = moment().tz(timezone).format('MMMM Do YYYY, h:mm:ss a');
+    return datetime;
   };
 
   http.createServer(function(request, response) {

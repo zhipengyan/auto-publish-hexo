@@ -3,7 +3,7 @@ shelljs=require "shelljs"
 crypto = require "crypto"
 bl = require 'bl'
 config = require './config'
-moment = require 'moment'
+moment = require 'moment-timezone'
 
 key = config.webhook_secret
 currentDir = ''+shelljs.pwd()
@@ -14,9 +14,9 @@ listenPort = config.listen_port
 timezone = config.timezone
 
 getTime = ()->
-  datetime = moment().format 'MMMM Do YYYY, h:mm:ss a'
-  datetime = moment.tz datetime, timezone
-  return datetime.format 'MMMM Do YYYY, h:mm:ss a'
+  #datetime = moment().format 'MMMM Do YYYY, h:mm:ss a'
+  datetime = moment().tz(timezone).format 'MMMM Do YYYY, h:mm:ss a'
+  return datetime 
 
 
 http.createServer (request, response)->
