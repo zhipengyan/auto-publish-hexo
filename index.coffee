@@ -11,6 +11,13 @@ hexoSourceDir = "#{currentDir}/#{config.path.hexo_source_path}"
 hexoDir = "#{currentDir}/#{config.path.hexo_path}"
 nodeVersion = config.nodejs_version
 listenPort = config.listen_port
+timezone = config.timezone
+
+getTime = ()->
+  datetime = moment().format 'MMMM Do YYYY, h:mm:ss a'
+  datetime = moment.tz timezone, datetime
+  return datetime.format 'MMMM Do YYYY, h:mm:ss a'
+
 
 http.createServer (request, response)->
   request.pipe bl (err, blob)->
@@ -52,15 +59,13 @@ http.createServer (request, response)->
             shelljs.cd hexoDir
             hexoCmd = shelljs.exec "hexo clean & hexo generate"
             if hexoCmd.code isnt 0
-              datetime = moment().format 'MMMM Do YYYY, h:mm:ss a'
-              console.log "hexo generate failed! at #{datetime}"
+              console.log "hexo generate failed! at #{getTime()}"
               statusCode = 500
               result = 
                 success: false
                 errMsg: "hexo generage failed:"+hexoCmd.output
             else
-              datetime = moment().format 'MMMM Do YYYY, h:mm:ss a'
-              console.log "hexo generate successed! at #{datetime}"
+              console.log "hexo generate successed! at #{getTime()}"
               statusCode = 200
               result = 
                 success: true

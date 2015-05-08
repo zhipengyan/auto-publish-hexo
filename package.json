@@ -23,6 +23,7 @@
   "dependencies": {
     "shelljs": "latest",
     "bl": "latest",
-    "moment": "latest"
+    "moment": "latest",
+    "moment-timezone": "latest"
   }
 }

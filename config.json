@@ -1,4 +1,5 @@
 {
+  "time_zone": "Asia/Shanghai",
   "webhook_secret": "your secret",
   "nodejs_version": "0.12",
   "path": {
