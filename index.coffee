@@ -51,7 +51,8 @@ http.createServer (request, response)->
             shelljs.cd hexoDir
             hexoCmd = shelljs.exec "hexo clean & hexo generate"
             if hexoCmd.code isnt 0
-              console.log "hexo generate failed!"
+              datetime = new Date()
+              console.log datetime.getTime()+" hexo generate failed!"
               statusCode = 500
               result = 
                 success: false

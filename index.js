@@ -26,7 +26,7 @@
 
   http.createServer(function(request, response) {
     request.pipe(bl(function(err, blob) {
-      var event, hexoCmd, id, nvmCmd, pullCmd, result, sig, signBlob, statusCode;
+      var datetime, event, hexoCmd, id, nvmCmd, pullCmd, result, sig, signBlob, statusCode;
       signBlob = function(key) {
         return 'sha1=' + crypto.createHmac('sha1', key).update(blob).digest('hex');
       };
@@ -58,7 +58,8 @@
             shelljs.cd(hexoDir);
             hexoCmd = shelljs.exec("hexo clean & hexo generate");
             if (hexoCmd.code !== 0) {
-              console.log("hexo generate failed!");
+              datetime = new Date();
+              console.log(datetime.getTime() + " hexo generate failed!");
               statusCode = 500;
               result = {
                 success: false,
