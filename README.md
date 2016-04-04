@@ -14,7 +14,6 @@ npm install
 {
      "time_zone": "Asia/Shanghai",           //所在时区，在log中显示时间了，vps一般不是本地时区
      "webhook_secret": "your secret",        //github webhooks设置的secret
-     "nodejs_version": "0.12",               //使用的nodejs的版本
      "path": {                               //如果hexo的配置为默认的话不用修改下面的
        "hexo_path": "../",                   //hexo目录相对路径
        "hexo_source_path": "../source"       //hexo source目录的相对路径，也就是文章目录
