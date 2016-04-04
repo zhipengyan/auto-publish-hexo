@@ -36,7 +36,7 @@
 
   http.createServer(function(request, response) {
     request.pipe(bl(function(err, blob) {
-      var event, hexoCmd, id, nvmCmd, pullCmd, result, sig, signBlob, statusCode;
+      var event, hexoCmd, id, pullCmd, result, sig, signBlob, statusCode;
       signBlob = function(key) {
         return 'sha1=' + crypto.createHmac('sha1', key).update(blob).digest('hex');
       };
@@ -59,11 +59,6 @@
         pullCmd = shelljs.exec("ls & git pull origin master ");
         if (pullCmd.code === 0) {
           console.log("pull successed!");
-          if (!(shelljs.which('node'))) {
-            if (shelljs.which('nvm')) {
-              nvmCmd = shelljs.exec("nvm use " + nodeVersion);
-            }
-          }
           if (shelljs.which('node')) {
             shelljs.cd(hexoDir);
             hexoCmd = shelljs.exec("hexo clean & hexo generate");
