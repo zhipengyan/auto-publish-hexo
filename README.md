@@ -1,7 +1,7 @@
 # auto-publish-hexo
-利用git webhooks 自动发布hexo文章
-###使用方法
-####1.install
+利用 git webhooks 自动发布hexo文章
+### 使用方法
+#### 1.install
 ```
 cd hexo安装路径
 git clone https://github.com/zhipengyan/auto-publish-hexo
@@ -9,7 +9,7 @@ cd auto-publish-hexo
 npm install
 ```
 
-####2.打开目录下的config.json进行修改
+#### 2.打开目录下的 config.json 进行修改
 ```javascript
 {
      "time_zone": "Asia/Shanghai",           //所在时区，在log中显示时间了，vps一般不是本地时区
@@ -22,5 +22,5 @@ npm install
 }
 ```
 
-####3.使用npm start或者node index.js运行
+#### 3.使用 npm start 或者 node index.js 运行
 
